@@ -9,8 +9,9 @@ from sklearn.preprocessing import StandardScaler
 
 
 def main():
-    st.set_page_config(page_title="Stock Price Prediction using LSTM", page_icon=":shark:", layout="centered")
-    st.title("Stock Price Prediction using LSTM")
+    st.set_page_config(page_title="股票价格预测系统 - "
+                                  "Stock Price Prediction using LSTM）", page_icon=":shark:", layout="centered")
+    st.title("股票价格预测系统 （Stock Price Prediction using LSTM）")
     # 选择证券市场
     mac = st.radio("Select Market", ('上证', '深证', '北证'))
     if mac == '上证':
@@ -21,10 +22,10 @@ def main():
         mk = "bj"
 
     # 价格预测是基于过去多少天的价格
-    TimeSteps = st.slider("基于过去多少天的价格来预测:", min_value=1, max_value=15, value=5)
+    TimeSteps = st.slider("基于过去多少天的价格来预测:", min_value=1, max_value=15, value=3)
 
     # 600000
-    ticker = st.text_input("Enter stock ticker symbol:")
+    ticker = st.text_input("输入股票代码:")
     if ticker and mk and TimeSteps:
         try:
             StockData = ak.stock_individual_fund_flow(stock=ticker, market=mk)
@@ -133,20 +134,20 @@ def main():
             predicted_Price = regressor.predict(X_test)
             predicted_Price = DataScaler.inverse_transform(predicted_Price)
             # 显示预测价格值
-            st.success('Predicted_Price:' + str(predicted_Price[0][0]))
+            st.success('预测明日该股价格: ' + str(predicted_Price[0][0]))
             # 获取测试数据的原始价格值
             orig = DataScaler.inverse_transform(y_test)
             dig = (100 - (100 * (abs(orig - predicted_Price) / orig)).mean()) / 100
             accuracy = "{:.2%}".format(dig)
             # 预测的准确性
             if dig > 0.995:
-                st.write('Congratulations accuracy:', accuracy)
+                st.write('非常棒！命中概率高达: ', accuracy)
             else:
-                st.write('Bad accuracy:', accuracy)
+                st.write('仅供参考！命中概率达到: ', accuracy)
 
             # 计算时间
             EndTime = time.time()
-            st.write("Total Time Taken: ", round(EndTime - StartTime), 'Second')
+            st.write("总耗时: ", round(EndTime - StartTime), '秒')
 
         except TypeError or ValueError:
             st.error("Invalid input.")

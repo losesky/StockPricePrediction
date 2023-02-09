@@ -4,7 +4,7 @@
 这里展示了使用 LSTM 来学习股票价格的模式，将能够根据过去几天（你选定的）的价格预测第二天的股票价格。
 
 Demo: \
-https://losesky-downloadyoutubevideo-main-cgabli.streamlit.app/
+https://losesky-stockpriceprediction-main-e5itxv.streamlit.app/
 
 参考：\
 https://zhuanlan.zhihu.com/p/530822468\
